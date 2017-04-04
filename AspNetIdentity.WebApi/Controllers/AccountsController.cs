@@ -12,12 +12,14 @@ namespace AspNetIdentity.WebApi.Controllers
     [RoutePrefix("api/accounts")]
     public class AccountsController : BaseApiController
     {
+        [Authorize]
         [Route("users")]
         public IHttpActionResult GetUsers()
         {
             return Ok(AppUserManager.Users.ToList().Select(u => TheModelFactory.Create(u)));
         }
 
+        [Authorize]
         [Route("user/{id:guid}", Name = "GetUserById")]
         public async Task<IHttpActionResult> GetUser(string Id)
         {
@@ -31,6 +33,7 @@ namespace AspNetIdentity.WebApi.Controllers
             return NotFound();
         }
 
+        [Authorize]
         [Route("user/{username}")]
         public async Task<IHttpActionResult> GetUserByName(string username)
         {
@@ -45,6 +48,7 @@ namespace AspNetIdentity.WebApi.Controllers
 
         }
 
+        [AllowAnonymous]
         [Route("create")]
         public async Task<IHttpActionResult> CreateUser(CreateUserBindingModel createUserModel)
         {
@@ -93,6 +97,7 @@ namespace AspNetIdentity.WebApi.Controllers
         /// <param name="userId"></param>
         /// <param name="code"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet]
         [Route("ConfirmEmail", Name = "ConfirmEmailRoute")]
         public async Task<IHttpActionResult> ConfirmEmail(string userId = "", string code = "")
@@ -120,6 +125,7 @@ namespace AspNetIdentity.WebApi.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
+        [Authorize]
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
@@ -138,6 +144,7 @@ namespace AspNetIdentity.WebApi.Controllers
             return Ok();
         }
 
+        [Authorize]
         [Route("user/{id:guid}")]
         public async Task<IHttpActionResult> DeleteUser(string id)
         {
