@@ -132,6 +132,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\ChangePasswordBindingModel.cs" />
+    <Compile Include="Validators\MyCustomPasswordValidator.cs" />
+    <Compile Include="Validators\MyCustomUserValidator.cs" />
+    <Compile Include="Services\EmailService.cs" />
     <Compile Include="Models\CreateUserBindingModel.cs" />
     <Compile Include="Models\UserReturnModel.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
