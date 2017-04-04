@@ -12,7 +12,6 @@ namespace AspNetIdentity.WebApi.Controllers
     [RoutePrefix("api/accounts")]
     public class AccountsController : BaseApiController
     {
-
         [Route("users")]
         public IHttpActionResult GetUsers()
         {
