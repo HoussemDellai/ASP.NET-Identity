@@ -30,12 +30,12 @@ namespace AspNetIdentity.WebApi.Controllers
         /// this will happen when we call the method “FindByIdAsync”, 
         /// this method returns object of type “RoleReturnModel”.
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         [Route("{id:guid}", Name = "GetRoleById")]
-        public async Task<IHttpActionResult> GetRole(string Id)
+        public async Task<IHttpActionResult> GetRole(string id)
         {
-            var role = await this.AppRoleManager.FindByIdAsync(Id);
+            var role = await AppRoleManager.FindByIdAsync(id);
 
             if (role != null)
             {
@@ -53,7 +53,7 @@ namespace AspNetIdentity.WebApi.Controllers
         [Route("", Name = "GetAllRoles")]
         public IHttpActionResult GetAllRoles()
         {
-            var roles = this.AppRoleManager.Roles;
+            var roles = AppRoleManager.Roles;
 
             return Ok(roles);
         }
@@ -76,7 +76,7 @@ namespace AspNetIdentity.WebApi.Controllers
 
             var role = new IdentityRole { Name = model.Name };
 
-            var result = await this.AppRoleManager.CreateAsync(role);
+            var result = await AppRoleManager.CreateAsync(role);
 
             if (!result.Succeeded)
             {
@@ -93,17 +93,17 @@ namespace AspNetIdentity.WebApi.Controllers
         /// Deletes existing role by passing the unique id of the role 
         /// then calling the method “DeleteAsync”.
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         [Route("{id:guid}")]
-        public async Task<IHttpActionResult> DeleteRole(string Id)
+        public async Task<IHttpActionResult> DeleteRole(string id)
         {
 
-            var role = await this.AppRoleManager.FindByIdAsync(Id);
+            var role = await AppRoleManager.FindByIdAsync(id);
 
             if (role != null)
             {
-                IdentityResult result = await this.AppRoleManager.DeleteAsync(role);
+                IdentityResult result = await AppRoleManager.DeleteAsync(role);
 
                 if (!result.Succeeded)
                 {
@@ -126,7 +126,7 @@ namespace AspNetIdentity.WebApi.Controllers
         [Route("ManageUsersInRole")]
         public async Task<IHttpActionResult> ManageUsersInRole(UsersInRoleModel model)
         {
-            var role = await this.AppRoleManager.FindByIdAsync(model.Id);
+            var role = await AppRoleManager.FindByIdAsync(model.Id);
 
             if (role == null)
             {
@@ -136,21 +136,21 @@ namespace AspNetIdentity.WebApi.Controllers
 
             foreach (string user in model.EnrolledUsers)
             {
-                var appUser = await this.AppUserManager.FindByIdAsync(user);
+                var appUser = await AppUserManager.FindByIdAsync(user);
 
                 if (appUser == null)
                 {
-                    ModelState.AddModelError("", String.Format("User: {0} does not exists", user));
+                    ModelState.AddModelError("", $"User: {user} does not exists");
                     continue;
                 }
 
-                if (!this.AppUserManager.IsInRole(user, role.Name))
+                if (!AppUserManager.IsInRole(user, role.Name))
                 {
-                    IdentityResult result = await this.AppUserManager.AddToRoleAsync(user, role.Name);
+                    IdentityResult result = await AppUserManager.AddToRoleAsync(user, role.Name);
 
                     if (!result.Succeeded)
                     {
-                        ModelState.AddModelError("", String.Format("User: {0} could not be added to role", user));
+                        ModelState.AddModelError("", $"User: {user} could not be added to role");
                     }
 
                 }
@@ -158,19 +158,19 @@ namespace AspNetIdentity.WebApi.Controllers
 
             foreach (string user in model.RemovedUsers)
             {
-                var appUser = await this.AppUserManager.FindByIdAsync(user);
+                var appUser = await AppUserManager.FindByIdAsync(user);
 
                 if (appUser == null)
                 {
-                    ModelState.AddModelError("", String.Format("User: {0} does not exists", user));
+                    ModelState.AddModelError("", $"User: {user} does not exists");
                     continue;
                 }
 
-                IdentityResult result = await this.AppUserManager.RemoveFromRoleAsync(user, role.Name);
+                IdentityResult result = await AppUserManager.RemoveFromRoleAsync(user, role.Name);
 
                 if (!result.Succeeded)
                 {
-                    ModelState.AddModelError("", String.Format("User: {0} could not be removed from role", user));
+                    ModelState.AddModelError("", $"User: {user} could not be removed from role");
                 }
             }
 

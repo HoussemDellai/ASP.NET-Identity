@@ -10,7 +10,7 @@ namespace AspNetIdentity.WebApi.Providers
     public class CustomJwtFormat : ISecureDataFormat<AuthenticationTicket>
     {
 
-        private readonly string _issuer = string.Empty;
+        private readonly string _issuer;
 
         public CustomJwtFormat(string issuer)
         {

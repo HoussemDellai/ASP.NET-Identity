@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Net.Http.Formatting;
-using System.Web;
 using System.Web.Http;
 using AspNetIdentity.WebApi.Infrastructure;
 using AspNetIdentity.WebApi.Providers;

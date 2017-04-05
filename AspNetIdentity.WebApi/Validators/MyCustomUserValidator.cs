@@ -18,8 +18,7 @@ namespace AspNetIdentity.WebApi.Validators
     /// </summary>
     public class MyCustomUserValidator : UserValidator<ApplicationUser>
     {
-
-        List<string> _allowedEmailDomains = new List<string>
+        readonly List<string> _allowedEmailDomains = new List<string>
         {
             "outlook.com", "hotmail.com", "gmail.com", "yahoo.com"
         };
