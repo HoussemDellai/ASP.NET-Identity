@@ -17,7 +17,7 @@ namespace AspNetIdentity.WebApi.Services
         {
             SmtpClient smtpClient = new SmtpClient("smtp.live.com", 995)
             {
-                Credentials = new NetworkCredential("houssem.dellai@live.com", "@mhd04061989?"),
+                Credentials = new NetworkCredential("houssem.dellai@live.com", ""),
                 UseDefaultCredentials = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 EnableSsl = true
