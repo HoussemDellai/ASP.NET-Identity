@@ -9,11 +9,11 @@ namespace AspNetIdentity.WebApi.Services
     {
         public async Task SendAsync(IdentityMessage message)
         {
-            await ConfigSendGridAsync(message);
+            ConfigEmail(message);
         }
 
         // Use NuGet to install SendGrid (Basic C# client lib) 
-        private async Task ConfigSendGridAsync(IdentityMessage message)
+        private void ConfigEmail(IdentityMessage message)
         {
             SmtpClient smtpClient = new SmtpClient("smtp.live.com", 995)
             {

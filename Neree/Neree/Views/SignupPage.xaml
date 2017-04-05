@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:Neree.ViewModels;assembly=Neree"
+             x:Class="Neree.Views.SignupPage">
+    
+    <ContentPage.BindingContext>
+        <viewModels:SignupViewModel />
+    </ContentPage.BindingContext>
+
+    <StackLayout Orientation="Vertical"
+                 Spacing="30"
+                 Padding="30">
+
+        <Entry Text="{Binding Model.Username}"/>
+        <Entry Text="{Binding Model.Password}"/>
+        <Entry Text="{Binding Model.ConfirmPassword}"/>
+
+        <Button Text="Signup"
+                Command="{Binding SignupCommand}"/>
+        
+        <Label Text="{Binding Result}"/>
+
+    </StackLayout>
+    
+</ContentPage>
