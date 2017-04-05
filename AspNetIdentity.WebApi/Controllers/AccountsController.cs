@@ -12,18 +12,18 @@ namespace AspNetIdentity.WebApi.Controllers
     [RoutePrefix("api/accounts")]
     public class AccountsController : BaseApiController
     {
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [Route("users")]
         public IHttpActionResult GetUsers()
         {
             return Ok(AppUserManager.Users.ToList().Select(u => TheModelFactory.Create(u)));
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [Route("user/{id:guid}", Name = "GetUserById")]
-        public async Task<IHttpActionResult> GetUser(string Id)
+        public async Task<IHttpActionResult> GetUser(string id)
         {
-            var user = await AppUserManager.FindByIdAsync(Id);
+            var user = await AppUserManager.FindByIdAsync(id);
 
             if (user != null)
             {
@@ -33,7 +33,7 @@ namespace AspNetIdentity.WebApi.Controllers
             return NotFound();
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [Route("user/{username}")]
         public async Task<IHttpActionResult> GetUserByName(string username)
         {
@@ -45,7 +45,6 @@ namespace AspNetIdentity.WebApi.Controllers
             }
 
             return NotFound();
-
         }
 
         [AllowAnonymous]
@@ -76,7 +75,7 @@ namespace AspNetIdentity.WebApi.Controllers
 
             string code = await AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
 
-            var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", 
+            var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute",
                 new { userId = user.Id, code = code }));
 
             await AppUserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
@@ -84,6 +83,31 @@ namespace AspNetIdentity.WebApi.Controllers
             Uri locationHeader = new Uri(Url.Link("GetUserById", new { id = user.Id }));
 
             return Created(locationHeader, TheModelFactory.Create(user));
+        }
+
+        [Authorize(Roles = "Admin")]
+        [Route("user/{id:guid}")]
+        public async Task<IHttpActionResult> DeleteUser(string id)
+        {
+
+            //Only SuperAdmin or Admin can delete users (Later when implement roles)
+
+            var appUser = await AppUserManager.FindByIdAsync(id);
+
+            if (appUser != null)
+            {
+                IdentityResult result = await AppUserManager.DeleteAsync(appUser);
+
+                if (!result.Succeeded)
+                {
+                    return GetErrorResult(result);
+                }
+
+                return Ok();
+
+            }
+
+            return NotFound();
         }
 
         /// <summary>
@@ -144,29 +168,63 @@ namespace AspNetIdentity.WebApi.Controllers
             return Ok();
         }
 
-        [Authorize]
-        [Route("user/{id:guid}")]
-        public async Task<IHttpActionResult> DeleteUser(string id)
+        /// <summary>
+        /// An endpoint which allow users in Admin role to manage the roles 
+        /// for a selected user.
+        /// This method can be accessed only by authenticated users 
+        /// who belongs to “Admin” role, 
+        /// that’s why we have added the attribute [Authorize(Roles=”Admin”)]
+        /// The method accepts the UserId in its URI and array of the roles 
+        /// this user Id should be enrolled in.
+        /// The method will validates that this array of roles exists in the system, 
+        /// if not, HTTP Bad response will be sent indicating which roles doesn’t exist.
+        /// The system will delete all the roles assigned for the user 
+        /// then will assign only the roles sent in the request.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="rolesToAssign"></param>
+        /// <returns></returns>
+        [Authorize(Roles = "Admin")]
+        [Route("user/{id:guid}/roles")]
+        [HttpPut]
+        public async Task<IHttpActionResult> AssignRolesToUser([FromUri] string id, [FromBody] string[] rolesToAssign)
         {
 
-            //Only SuperAdmin or Admin can delete users (Later when implement roles)
+            var appUser = await AppUserManager.FindByIdAsync(id);
 
-            var appUser = await this.AppUserManager.FindByIdAsync(id);
-
-            if (appUser != null)
+            if (appUser == null)
             {
-                IdentityResult result = await AppUserManager.DeleteAsync(appUser);
-
-                if (!result.Succeeded)
-                {
-                    return GetErrorResult(result);
-                }
-
-                return Ok();
-
+                return NotFound();
             }
 
-            return NotFound();
+            var currentRoles = await AppUserManager.GetRolesAsync(appUser.Id);
+
+            var rolesNotExists = rolesToAssign.Except(AppRoleManager.Roles.Select(x => x.Name)).ToArray();
+
+            if (rolesNotExists.Count() > 0)
+            {
+
+                ModelState.AddModelError("", string.Format("Roles '{0}' does not exixts in the system", string.Join(",", rolesNotExists)));
+                return BadRequest(ModelState);
+            }
+
+            IdentityResult removeResult = await AppUserManager.RemoveFromRolesAsync(appUser.Id, currentRoles.ToArray());
+
+            if (!removeResult.Succeeded)
+            {
+                ModelState.AddModelError("", "Failed to remove user roles");
+                return BadRequest(ModelState);
+            }
+
+            IdentityResult addResult = await AppUserManager.AddToRolesAsync(appUser.Id, rolesToAssign);
+
+            if (!addResult.Succeeded)
+            {
+                ModelState.AddModelError("", "Failed to add user roles");
+                return BadRequest(ModelState);
+            }
+
+            return Ok();
         }
     }
 }

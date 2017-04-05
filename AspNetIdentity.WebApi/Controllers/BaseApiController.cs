@@ -12,6 +12,7 @@ namespace AspNetIdentity.WebApi.Controllers
 
         private ModelFactory _modelFactory;
         private ApplicationUserManager _AppUserManager = null;
+        private ApplicationRoleManager _AppRoleManager = null;
 
         protected ApplicationUserManager AppUserManager
         {
@@ -21,8 +22,12 @@ namespace AspNetIdentity.WebApi.Controllers
             }
         }
 
-        public BaseApiController()
+        protected ApplicationRoleManager AppRoleManager
         {
+            get
+            {
+                return _AppRoleManager ?? Request.GetOwinContext().GetUserManager<ApplicationRoleManager>();
+            }
         }
 
         protected ModelFactory TheModelFactory
@@ -31,10 +36,14 @@ namespace AspNetIdentity.WebApi.Controllers
             {
                 if (_modelFactory == null)
                 {
-                    _modelFactory = new ModelFactory(this.Request, this.AppUserManager);
+                    _modelFactory = new ModelFactory(Request, AppUserManager);
                 }
                 return _modelFactory;
             }
+        }
+
+        public BaseApiController()
+        {
         }
 
         protected IHttpActionResult GetErrorResult(IdentityResult result)

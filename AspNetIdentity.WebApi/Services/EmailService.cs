@@ -15,9 +15,9 @@ namespace AspNetIdentity.WebApi.Services
         // Use NuGet to install SendGrid (Basic C# client lib) 
         private async Task ConfigSendGridAsync(IdentityMessage message)
         {
-            SmtpClient smtpClient = new SmtpClient("smtp.live.com", 587)
+            SmtpClient smtpClient = new SmtpClient("smtp.live.com", 995)
             {
-                Credentials = new NetworkCredential("houssemdellai@outlook.com", "@mhd04061989?"),
+                Credentials = new NetworkCredential("houssem.dellai@live.com", "@mhd04061989?"),
                 UseDefaultCredentials = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 EnableSsl = true
@@ -25,7 +25,7 @@ namespace AspNetIdentity.WebApi.Services
 
             MailMessage mail = new MailMessage
             {
-                From = new MailAddress("houssemdellai@outlook.com", "ASP.NET Identity Web")
+                From = new MailAddress("houssem.dellai@live.com", "ASP.NET Identity Web")
             };
 
             //Setting From , To and CC

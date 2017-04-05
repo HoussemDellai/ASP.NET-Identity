@@ -1,6 +1,7 @@
 using System.Net.Http;
 using System.Web.Http.Routing;
 using AspNetIdentity.WebApi.Infrastructure;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace AspNetIdentity.WebApi.Models
 {
@@ -8,6 +9,17 @@ namespace AspNetIdentity.WebApi.Models
     {
         private UrlHelper _UrlHelper;
         private ApplicationUserManager _AppUserManager;
+
+        public RoleReturnModel Create(IdentityRole appRole)
+        {
+
+            return new RoleReturnModel
+            {
+                Url = _UrlHelper.Link("GetRoleById", new { id = appRole.Id }),
+                Id = appRole.Id,
+                Name = appRole.Name
+            };
+        }
 
         public ModelFactory(HttpRequestMessage request, ApplicationUserManager appUserManager)
         {

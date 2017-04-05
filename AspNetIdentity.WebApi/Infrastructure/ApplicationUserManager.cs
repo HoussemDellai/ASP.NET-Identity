@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using AspNetIdentity.WebApi.Services;
 using AspNetIdentity.WebApi.Validators;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -22,7 +23,7 @@ namespace AspNetIdentity.WebApi.Infrastructure
             var appDbContext = context.Get<ApplicationDbContext>();
             var appUserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(appDbContext))
             {
-                EmailService = new Services.EmailService()
+                EmailService = new EmailService()
             };
             
             var dataProtectionProvider = options.DataProtectionProvider;

@@ -143,6 +143,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Infrastructure\ApplicationRoleManager.cs" />
+    <Compile Include="Models\RoleReturnModel.cs" />
+    <Compile Include="Models\UsersInRoleModel.cs" />
+    <Compile Include="Models\CreateRoleBindingModel.cs" />
     <Compile Include="Providers\CustomJwtFormat.cs" />
     <Compile Include="Providers\CustomOAuthProvider.cs" />
     <Compile Include="Models\ChangePasswordBindingModel.cs" />
