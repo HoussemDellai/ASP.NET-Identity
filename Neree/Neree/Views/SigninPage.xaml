@@ -4,7 +4,7 @@
              xmlns:viewModels="clr-namespace:Neree.ViewModels;assembly=Neree"
              x:Class="Neree.Views.SigninPage">
     <ContentPage.BindingContext>
-        <viewModels:SignupViewModel/>
+        <viewModels:SignupViewModel />
     </ContentPage.BindingContext>
 
     <StackLayout Orientation="Vertical"
@@ -15,7 +15,15 @@
         <Entry Text="{Binding Model.Password}" />
 
         <Button Text="Signin"
+                TextColor="White"
+                BackgroundColor="Green"
                 Command="{Binding SigninCommand}" />
+
+        <ActivityIndicator IsRunning="{Binding IsBusy}"
+                           IsEnabled="{Binding IsBusy}"
+                           IsVisible="{Binding IsBusy}" />
+
+        <Label Text="{Binding Message}" />
 
     </StackLayout>
 

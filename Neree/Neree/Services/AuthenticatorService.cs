@@ -103,6 +103,7 @@ namespace Neree.Services
             }
 
             var content = response?.Content?.ReadAsStringAsync().Result;
+            Debug.WriteLine(content);
             //var jwt = await response?.Content?.ReadAsStringAsync();
 
             if (response.IsSuccessStatusCode)

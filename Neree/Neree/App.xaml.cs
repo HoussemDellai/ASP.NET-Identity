@@ -14,8 +14,8 @@ namespace Neree
         {
             InitializeComponent();
 
-            MainPage = new SigninPage();
-            //MainPage = new SignupPage();
+            //MainPage = new SigninPage();
+            MainPage = new SignupPage();
         }
 
         protected override void OnStart()

@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Neree.Models;
+using Neree.Platform;
 using Neree.Services;
 using Xamarin.Forms;
 
@@ -13,8 +14,9 @@ namespace Neree.ViewModels
     public class SignupViewModel : INotifyPropertyChanged
     {
         private string _message;
-        private bool _isBusy;
-        private AuthenticatorService _authenticator;
+        private bool _isBusy = false;
+        private readonly AuthenticatorService _authenticatorService;
+        private readonly NavigationService _navigationService;
 
         public CreateUserBindingModel Model { get; set; }
 
@@ -44,8 +46,8 @@ namespace Neree.ViewModels
 
         public SignupViewModel()
         {
-
-            _authenticator = new AuthenticatorService();
+            _navigationService = new NavigationService();
+            _authenticatorService = new AuthenticatorService();
 
             Model = new CreateUserBindingModel
             {
@@ -68,10 +70,12 @@ namespace Neree.ViewModels
 
             IsBusy = true;
             Message = "Signing up...";
+            AuthResponse response = null;
+
             // TODO: check internet connectivity
             try
             {
-                var response = await _authenticator.SignupAsync(Model);
+                response = await _authenticatorService.SignupAsync(Model);
 
                 Message = response.Result;
             }
@@ -82,6 +86,11 @@ namespace Neree.ViewModels
             finally
             {
                 IsBusy = false;
+            }
+
+            if (response != null && response.IsSuccess)
+            {
+                await _navigationService.NavigateToSigninPage();
             }
         }
 
@@ -97,7 +106,7 @@ namespace Neree.ViewModels
 
             try
             {
-                var response = await _authenticator.SigninAsync(Model.Username, Model.Password);
+                var response = await _authenticatorService.SigninAsync(Model.Username, Model.Password);
 
                 Message = response.Result;
 

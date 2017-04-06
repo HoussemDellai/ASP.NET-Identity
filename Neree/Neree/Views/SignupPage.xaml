@@ -18,10 +18,16 @@
         <Entry Text="{Binding Model.ConfirmPassword}"/>
 
         <Button Text="Signup"
+                TextColor="White"
+                BackgroundColor="Navy"
                 Command="{Binding SignupCommand}"/>
         
-        <Label Text="{Binding Message}"/>
+        <ActivityIndicator IsRunning="{Binding IsBusy}"
+                           IsEnabled="{Binding IsBusy}"
+                           IsVisible="{Binding IsBusy}" />
 
+        <Label Text="{Binding Message}"/>
+        
     </StackLayout>
     
 </ContentPage>
