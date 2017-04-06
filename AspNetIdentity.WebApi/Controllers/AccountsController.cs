@@ -85,13 +85,15 @@ namespace AspNetIdentity.WebApi.Controllers
             return Created(locationHeader, TheModelFactory.Create(user));
         }
 
+        /// <summary>
+        /// Only SuperAdmin or Admin can delete users.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Authorize(Roles = "Admin")]
         [Route("user/{id:guid}")]
         public async Task<IHttpActionResult> DeleteUser(string id)
         {
-
-            //Only SuperAdmin or Admin can delete users (Later when implement roles)
-
             var appUser = await AppUserManager.FindByIdAsync(id);
 
             if (appUser != null)

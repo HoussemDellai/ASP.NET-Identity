@@ -13,13 +13,14 @@
                  Padding="30">
 
         <Entry Text="{Binding Model.Username}"/>
+        <Entry Text="{Binding Model.Email}"/>
         <Entry Text="{Binding Model.Password}"/>
         <Entry Text="{Binding Model.ConfirmPassword}"/>
 
         <Button Text="Signup"
                 Command="{Binding SignupCommand}"/>
         
-        <Label Text="{Binding Result}"/>
+        <Label Text="{Binding Message}"/>
 
     </StackLayout>
     

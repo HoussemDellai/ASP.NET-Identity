@@ -41,8 +41,10 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\AuthResponse.cs" />
     <Compile Include="Models\CreateUserBindingModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AuthenticatorService.cs" />
     <Compile Include="ViewModels\SignupViewModel.cs" />
     <Compile Include="Views\SigninPage.xaml.cs">
       <DependentUpon>SigninPage.xaml</DependentUpon>

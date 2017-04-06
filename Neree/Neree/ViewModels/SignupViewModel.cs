@@ -1,115 +1,54 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Neree.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Neree.Services;
 using Xamarin.Forms;
 
 namespace Neree.ViewModels
 {
     public class SignupViewModel : INotifyPropertyChanged
     {
-        private string _result;
+        private string _message;
+        private bool _isBusy;
+        private AuthenticatorService _authenticator;
 
         public CreateUserBindingModel Model { get; set; }
 
-        public ICommand SignupCommand => new Command(async () => await Signup());
-
-        private async Task Signup()
+        public string Message
         {
-
-            var json = JsonConvert.SerializeObject(Model);
-
-            HttpContent httpContent = new StringContent(json);
-
-            httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-            HttpResponseMessage response;
-
-            var client = new HttpClient();
-            //using (var client = new HttpClient())
-            //{
-            response = await client.PostAsync(
-                "http://localhost:51502/api/accounts/create",
-                httpContent);
-            //}
-
-            if (!response.IsSuccessStatusCode)
-            {
-                // something went wrong...
-            }
-            else
-            {
-                var r = await response.Content.ReadAsStringAsync();
-            }
-        }
-
-
-        public ICommand SigninCommand => new Command(async () => await Signin());
-
-        public string Result
-        {
-            get { return _result; }
+            get { return _message; }
             set
             {
-                _result = value; 
+                _message = value;
                 OnPropertyChanged();
             }
         }
 
-        private async Task Signin()
+        public bool IsBusy
         {
-            var client = new HttpClient
+            get { return _isBusy; }
+            set
             {
-                BaseAddress = new Uri("http://localhost:51502")
-            };
-
-            var request = new HttpRequestMessage(HttpMethod.Post, "/oauth/token");
-
-            var keyValues = new List<KeyValuePair<string, string>>
-            {
-                new KeyValuePair<string, string>("username", Model.Username),
-                new KeyValuePair<string, string>("password", Model.Password),
-                new KeyValuePair<string, string>("grant_type", "password")
-            };
-
-            request.Content = new FormUrlEncodedContent(keyValues);
-
-            var response = await client.SendAsync(request);
-
-            // {"access_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1laWQiOiI1Nzg3NzhmMC00NGEzLTRhYWUtOGI4Yi01OTRlODhlNTdmYjQiLCJ1bmlxdWVfbmFtZSI6IlRlc3RVc2VyMSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vYWNjZXNzY29udHJvbHNlcnZpY2UvMjAxMC8wNy9jbGFpbXMvaWRlbnRpdHlwcm92aWRlciI6IkFTUC5ORVQgSWRlbnRpdHkiLCJBc3BOZXQuSWRlbnRpdHkuU2VjdXJpdHlTdGFtcCI6Ijg4OWIwZmI2LTYyMzktNDRhNi1iZjZjLTM3ODE3M2Y0MmNiMyIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTE1MDIiLCJhdWQiOiIwOTkxNTNjMjYyNTE0OWJjOGVjYjNlODVlMDNmMDAyMiIsImV4cCI6MTQ5MTQ5NDU4NSwibmJmIjoxNDkxNDA4MTg1fQ.zZCsghMOxJq1Jn3S0F9NNI7I0nX7TdIIvOPXFH0pfQQ","token_type":"bearer","expires_in":86399}
-            Result = await response.Content.ReadAsStringAsync();
-
-            Debug.WriteLine(Result);
-
-            JObject r = JsonConvert.DeserializeObject<dynamic>(Result);
-
-            var accessToken = r.Value<string>("access_token");//.Value<JArray>("photo");
-
-            Debug.WriteLine(accessToken);
+                _isBusy = value;
+                OnPropertyChanged();
+            }
         }
+
+        public ICommand SignupCommand => new Command(async () => await SignupAsync());
+
+        public ICommand SigninCommand => new Command(async () => await SigninAsync());
 
         public SignupViewModel()
         {
+
+            _authenticator = new AuthenticatorService();
+
             Model = new CreateUserBindingModel
             {
-                //Username = "TestUser2",
-                //Password = "@Aa123456",
-                //ConfirmPassword = "@Aa123456",
-                //Email = "h2@d.c",
-                //FirstName = "Test2",
-                //LastName = "User2",
                 Username = "TestUser1",
                 Password = "@Aa123456",
                 ConfirmPassword = "@Aa123456",
@@ -118,6 +57,60 @@ namespace Neree.ViewModels
                 LastName = "User1",
                 //RoleName = ""
             };
+        }
+
+        private async Task SignupAsync()
+        {
+            if (IsBusy)
+                return;
+
+            // TODO: validate username and password
+
+            IsBusy = true;
+            Message = "Signing up...";
+            // TODO: check internet connectivity
+            try
+            {
+                var response = await _authenticator.SignupAsync(Model);
+
+                Message = response.Result;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        private async Task SigninAsync()
+        {
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+            Message = "Signing in...";
+
+            // TODO: validate username and password
+
+            try
+            {
+                var response = await _authenticator.SigninAsync(Model.Username, Model.Password);
+
+                Message = response.Result;
+
+                // TODO: save access_token in settings
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
