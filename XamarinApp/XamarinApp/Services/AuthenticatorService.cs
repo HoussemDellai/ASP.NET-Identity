@@ -10,10 +10,13 @@ using XamarinApp.Models;
 
 namespace XamarinApp.Services
 {
+    /// <summary>
+    /// Authenticate the user to the API.
+    /// </summary>
     public class AuthenticatorService
     {
         /// <summary>
-        /// 
+        /// Signup the user to the API.
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -74,6 +77,12 @@ namespace XamarinApp.Services
             return result;
         }
 
+        /// <summary>
+        /// Signin the user to the API.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public async Task<AuthResponse> SigninAsync(string username, string password)
         {
             var request = new HttpRequestMessage(

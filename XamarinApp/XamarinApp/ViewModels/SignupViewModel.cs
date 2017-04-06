@@ -11,6 +11,9 @@ using XamarinApp.Services;
 
 namespace XamarinApp.ViewModels
 {
+    /// <summary>
+    /// The ViewModel responsible for Signin and Signup.
+    /// </summary>
     public class SignupViewModel : INotifyPropertyChanged
     {
         private string _message;
