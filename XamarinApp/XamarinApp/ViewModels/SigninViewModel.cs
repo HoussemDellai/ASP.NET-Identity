@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using XamarinApp.Helpers;
 using XamarinApp.Models;
 using XamarinApp.Platform;
 using XamarinApp.Services;
@@ -14,7 +15,7 @@ namespace XamarinApp.ViewModels
     /// <summary>
     /// The ViewModel responsible for Signin and Signup.
     /// </summary>
-    public class SignupViewModel : INotifyPropertyChanged
+    public class SigninViewModel : INotifyPropertyChanged
     {
         private string _message;
         private bool _isBusy;
@@ -47,11 +48,11 @@ namespace XamarinApp.ViewModels
 
         public ICommand SigninCommand => new Command(async () => await SigninAsync());
 
-        public SignupViewModel()
+        public SigninViewModel()
         {
             _navigationService = new NavigationService();
             _authenticatorService = new AuthenticatorService();
-
+            
             Model = new CreateUserBindingModel
             {
                 Username = "TestUser1",
@@ -62,8 +63,25 @@ namespace XamarinApp.ViewModels
                 LastName = "User1",
                 //RoleName = ""
             };
+
+            if (!string.IsNullOrEmpty(Settings.Username))
+            {
+                Model.Username = Settings.Username;
+            }
+            if (!string.IsNullOrEmpty(Settings.Email))
+            {
+                Model.Email = Settings.Email;
+            }
+            if (!string.IsNullOrEmpty(Settings.Password))
+            {
+                Model.Password = Settings.Password;
+            }
         }
 
+        /// <summary>
+        /// Register the user to the API.
+        /// </summary>
+        /// <returns></returns>
         private async Task SignupAsync()
         {
             if (IsBusy)
@@ -93,6 +111,11 @@ namespace XamarinApp.ViewModels
 
             if (response != null && response.IsSuccess)
             {
+                // save username and password
+                Settings.Username = Model.Username;
+                Settings.Email = Model.Email;
+                Settings.Password = Model.Password;
+
                 await _navigationService.NavigateToSigninPage();
             }
         }
@@ -111,9 +134,11 @@ namespace XamarinApp.ViewModels
             {
                 var response = await _authenticatorService.SigninAsync(Model.Username, Model.Password);
 
+                // response.Result contains the access_token
                 Message = response.Result;
 
                 // TODO: save access_token in settings
+                Settings.AccessToken = response.Result;
             }
             catch (Exception e)
             {

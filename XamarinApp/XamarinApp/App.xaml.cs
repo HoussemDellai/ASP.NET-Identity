@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
+using XamarinApp.Views;
 
 namespace XamarinApp
 {
@@ -13,7 +9,8 @@ namespace XamarinApp
         {
             InitializeComponent();
 
-            MainPage = new XamarinApp.MainPage();
+            MainPage = new SignupPage();
+            //MainPage = new MainPage();
         }
 
         protected override void OnStart()

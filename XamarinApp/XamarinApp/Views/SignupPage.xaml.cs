@@ -16,5 +16,10 @@ namespace XamarinApp.Views
         {
             InitializeComponent();
         }
+
+        private async void GoToSigninPage_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new SigninPage());
+        }
     }
 }

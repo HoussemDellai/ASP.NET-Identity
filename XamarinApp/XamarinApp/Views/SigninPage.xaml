@@ -4,7 +4,7 @@
              xmlns:viewModels="clr-namespace:XamarinApp.ViewModels;assembly=XamarinApp"
              x:Class="XamarinApp.Views.SigninPage">
     <ContentPage.BindingContext>
-        <viewModels:SignupViewModel />
+        <viewModels:SigninViewModel />
     </ContentPage.BindingContext>
 
     <StackLayout Orientation="Vertical"
@@ -18,6 +18,11 @@
                 TextColor="White"
                 BackgroundColor="Green"
                 Command="{Binding SigninCommand}" />
+
+        <Button Text="Already have an account ? Login"
+                BackgroundColor="Transparent"
+                TextColor="Teal"
+                Clicked="GoToSignupPage_Clicked" />
 
         <ActivityIndicator IsRunning="{Binding IsBusy}"
                            IsEnabled="{Binding IsBusy}"
