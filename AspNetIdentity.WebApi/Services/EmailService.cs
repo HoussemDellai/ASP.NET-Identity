@@ -22,7 +22,7 @@ namespace AspNetIdentity.WebApi.Services
             var client = new SmtpClient("smtp.live.com", 587)
             {
                 EnableSsl = true,
-                Credentials = new NetworkCredential("houssem.dellai@live.com", "@mhd04061989?")
+                Credentials = new NetworkCredential("houssem.dellai@live.com", "password")
             };
 
             client.Send(mail);
