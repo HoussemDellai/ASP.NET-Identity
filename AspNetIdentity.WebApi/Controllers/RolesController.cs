@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using AspNetIdentity.WebApi.Helpers;
+using AspNetIdentity.WebApi.Infrastructure;
 using AspNetIdentity.WebApi.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -25,6 +28,14 @@ namespace AspNetIdentity.WebApi.Controllers
     [RoutePrefix("api/roles")]
     public class RolesController : BaseApiController
     {
+        [AllowAnonymous]
+        [Route("CreateSuperAdminAndRoles")]
+        [HttpGet]
+        public void CreateSuperAdminAndRoles()
+        {
+            var accounts = new AccountsHelpers();
+            accounts.CreateSuperAdminAndRoles();
+        }
         /// <summary>
         /// return a single role based on it is identifier, 
         /// this will happen when we call the method “FindByIdAsync”, 

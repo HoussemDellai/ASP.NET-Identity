@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.12
+VisualStudioVersion = 15.0.26403.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetIdentity.WebApi", "AspNetIdentity.WebApi\AspNetIdentity.WebApi.csproj", "{29D7C2E8-D844-4670-85CC-BFB2469BD847}"
 EndProject
@@ -16,6 +16,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinApp.UWP", "XamarinApp\XamarinApp.UWP\XamarinApp.UWP.csproj", "{8C9E96C2-A26A-4CAF-99B5-61A9CA987FD6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinApp.iOS", "XamarinApp\XamarinApp.iOS\XamarinApp.iOS.csproj", "{4E3FD59A-59E8-47BB-B396-1E71F688E990}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuspec", ".nuspec", "{A138D90C-F0F7-44E4-A850-99856627806E}"
+	ProjectSection(SolutionItems) = preProject
+		AspNet.Identity.Jwt.nuspec = AspNet.Identity.Jwt.nuspec
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

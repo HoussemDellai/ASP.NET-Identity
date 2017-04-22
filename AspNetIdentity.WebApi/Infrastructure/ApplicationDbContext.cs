@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿using System.Data.Entity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace AspNetIdentity.WebApi.Infrastructure
 {
@@ -9,6 +10,10 @@ namespace AspNetIdentity.WebApi.Infrastructure
         {
             Configuration.ProxyCreationEnabled = false;
             Configuration.LazyLoadingEnabled = false;
+
+            //Database.SetInitializer(new CreateDatabaseIfNotExists<ApplicationDbContext>());
+            //Database.SetInitializer(new DropCreateDatabaseAlways<ApplicationDbContext>());
+            //Database.CreateIfNotExists();
         }
 
         public static ApplicationDbContext Create()

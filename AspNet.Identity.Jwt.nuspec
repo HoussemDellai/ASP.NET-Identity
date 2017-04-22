@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata minClientVersion="2.8.3">
+    <id>Plugin.FormsStackPanel</id>
+    <version>1.0.3</version>
+    <title>StackPanel Plugin for Xamarin and Windows</title>
+    <authors>Houssem Dellai</authors>
+    <owners>Houssem Dellai</owners>
+    <licenseUrl>
+      https://github.com/HoussemDellai/FormsStackPanel
+    </licenseUrl>
+    <projectUrl>
+      https://github.com/HoussemDellai/FormsStackPanel
+    </projectUrl>
+    <iconUrl>
+      https://github.com/HoussemDellai/FormsStackPanel/blob/master/icon.png?raw=true
+    </iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+      Provides a sample implementation of a StackPanel that shows how to add tags in multiple rows.
+    </description>
+    <summary>Provides a sample implementation of a StackPanel that shows how to add tags in multiple rows.</summary>
+    <tags>xamarin, pcl, xam.pcl, plugin, plugin for xamarin, windows phone, winphone, wp8, winrt, android, xamarin.forms, ios</tags>
+  </metadata>
+  <files>
+    <!--Core-->
+    <file src="AspNetIdentity.WebApi\Providers\CustomJwtFormat.cs" 
+		target="content\Providers\CustomJwtFormat.cs" />
+    <file src="AspNetIdentity.WebApi\Providers\CustomOAuthProvider.cs" 
+		target="content\Providers\CustomOAuthProvider.cs" />
+    <file src="FormsStackPanel\FormsStackPanel\StackPanel.cs" target="content\Controls\StackPanel.cs" />
+    
+    <!--<file src="readme.txt" 
+          target="content\readme.txt"/>-->
+  </files>
+</package>

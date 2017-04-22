@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AspNetIdentity.WebApi.Models.Entities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -22,6 +24,8 @@ namespace AspNetIdentity.WebApi.Infrastructure
 
         [Required]
         public DateTime JoinDate { get; set; }
+
+        public List<Todo> Todos { get; set; }
 
         /// <summary>
         /// Responsible to get the authenticated user identity 
