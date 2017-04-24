@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.3
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetIdentity.WebApi", "AspNetIdentity.WebApi\AspNetIdentity.WebApi.csproj", "{29D7C2E8-D844-4670-85CC-BFB2469BD847}"
 EndProject
@@ -135,8 +135,6 @@ Global
 		{060E523E-6838-46E5-AF6C-F6936F6B6A44}.AppStore|x86.Build.0 = Release|Any CPU
 		{060E523E-6838-46E5-AF6C-F6936F6B6A44}.AppStore|x86.Deploy.0 = Release|Any CPU
 		{060E523E-6838-46E5-AF6C-F6936F6B6A44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{060E523E-6838-46E5-AF6C-F6936F6B6A44}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{060E523E-6838-46E5-AF6C-F6936F6B6A44}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{060E523E-6838-46E5-AF6C-F6936F6B6A44}.Debug|ARM.ActiveCfg = Debug|Any CPU
 		{060E523E-6838-46E5-AF6C-F6936F6B6A44}.Debug|ARM.Build.0 = Debug|Any CPU
 		{060E523E-6838-46E5-AF6C-F6936F6B6A44}.Debug|ARM.Deploy.0 = Debug|Any CPU
@@ -255,6 +253,8 @@ Global
 		{8C9E96C2-A26A-4CAF-99B5-61A9CA987FD6}.AppStore|x86.Build.0 = Release|x86
 		{8C9E96C2-A26A-4CAF-99B5-61A9CA987FD6}.AppStore|x86.Deploy.0 = Release|x86
 		{8C9E96C2-A26A-4CAF-99B5-61A9CA987FD6}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{8C9E96C2-A26A-4CAF-99B5-61A9CA987FD6}.Debug|Any CPU.Build.0 = Debug|x86
+		{8C9E96C2-A26A-4CAF-99B5-61A9CA987FD6}.Debug|Any CPU.Deploy.0 = Debug|x86
 		{8C9E96C2-A26A-4CAF-99B5-61A9CA987FD6}.Debug|ARM.ActiveCfg = Debug|ARM
 		{8C9E96C2-A26A-4CAF-99B5-61A9CA987FD6}.Debug|ARM.Build.0 = Debug|ARM
 		{8C9E96C2-A26A-4CAF-99B5-61A9CA987FD6}.Debug|ARM.Deploy.0 = Debug|ARM

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:XamarinApp.ViewModels;assembly=XamarinApp"
+             x:Class="XamarinApp.Views.EditTodoPage">
+    
+    <ContentPage.BindingContext>
+        <viewModels:TodoViewModel />
+    </ContentPage.BindingContext>
+
+    <!--<ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add"
+                     Command="{Binding AddTodoCommand}"/>
+    </ContentPage.ToolbarItems>-->
+
+    <StackLayout Orientation="Vertical">
+        <Entry Text="{Binding Todo.Title}" />
+        <Entry Text="{Binding Todo.Description}" />
+        <Entry Text="{Binding Todo.Category}" />
+        <Entry Text="{Binding Todo.Status}" />
+
+        <Button Text="Edit Todo"
+                Command="{Binding AddTodoCommand}" />
+    </StackLayout>
+</ContentPage>

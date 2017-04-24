@@ -23,5 +23,18 @@ namespace XamarinApp.Platform
             var currentPage = GetCurrentPage();
             await currentPage.Navigation.PopModalAsync();
         }
+
+        public async Task NavigateToTodoPageAsync()
+        {
+            var page = GetCurrentPage();
+            await page.Navigation.PushAsync(new TodoPage());
+        }
+
+        public async Task NavigateToAddTodoPageAsync()
+        {
+            var page = GetCurrentPage();
+
+            await page.Navigation.PushModalAsync(new AddTodoPage());
+        }
     }
 }

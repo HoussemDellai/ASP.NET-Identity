@@ -1,7 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -15,10 +13,9 @@ namespace XamarinApp.ViewModels
     /// <summary>
     /// The ViewModel responsible for Signin and Signup.
     /// </summary>
-    public class SigninViewModel : INotifyPropertyChanged
+    public class SigninViewModel : BaseViewModel
     {
         private string _message;
-        private bool _isBusy;
         private readonly AuthenticatorService _authenticatorService;
         private readonly NavigationService _navigationService;
 
@@ -33,26 +30,21 @@ namespace XamarinApp.ViewModels
                 OnPropertyChanged();
             }
         }
-
-        public bool IsBusy
-        {
-            get { return _isBusy; }
-            set
-            {
-                _isBusy = value;
-                OnPropertyChanged();
-            }
-        }
-
+        
         public ICommand SignupCommand => new Command(async () => await SignupAsync());
 
-        public ICommand SigninCommand => new Command(async () => await SigninAsync());
+        public ICommand SigninCommand => new Command(async () =>
+        {
+            await SigninAsync();//.ConfigureAwait(false);
+
+            await _navigationService.NavigateToTodoPageAsync();
+        });
 
         public SigninViewModel()
         {
             _navigationService = new NavigationService();
             _authenticatorService = new AuthenticatorService();
-            
+
             Model = new CreateUserBindingModel
             {
                 Username = "TestUser1",
@@ -64,17 +56,17 @@ namespace XamarinApp.ViewModels
                 //RoleName = ""
             };
 
-            if (!string.IsNullOrEmpty(Settings.Username))
+            if (!string.IsNullOrEmpty(UserSettings.Username))
             {
-                Model.Username = Settings.Username;
+                Model.Username = UserSettings.Username;
             }
-            if (!string.IsNullOrEmpty(Settings.Email))
+            if (!string.IsNullOrEmpty(UserSettings.Email))
             {
-                Model.Email = Settings.Email;
+                Model.Email = UserSettings.Email;
             }
-            if (!string.IsNullOrEmpty(Settings.Password))
+            if (!string.IsNullOrEmpty(UserSettings.Password))
             {
-                Model.Password = Settings.Password;
+                Model.Password = UserSettings.Password;
             }
         }
 
@@ -112,9 +104,9 @@ namespace XamarinApp.ViewModels
             if (response != null && response.IsSuccess)
             {
                 // save username and password
-                Settings.Username = Model.Username;
-                Settings.Email = Model.Email;
-                Settings.Password = Model.Password;
+                UserSettings.Username = Model.Username;
+                UserSettings.Email = Model.Email;
+                UserSettings.Password = Model.Password;
 
                 await _navigationService.NavigateToSigninPage();
             }
@@ -138,7 +130,7 @@ namespace XamarinApp.ViewModels
                 Message = response.Result;
 
                 // TODO: save access_token in settings
-                Settings.AccessToken = response.Result;
+                UserSettings.AccessToken = response.Result;
             }
             catch (Exception e)
             {
@@ -148,13 +140,6 @@ namespace XamarinApp.ViewModels
             {
                 IsBusy = false;
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

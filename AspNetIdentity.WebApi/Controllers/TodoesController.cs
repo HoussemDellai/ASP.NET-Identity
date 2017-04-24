@@ -21,6 +21,24 @@ namespace AspNetIdentity.WebApi.Controllers
         private ToDoContext db = new ToDoContext();
 
         // GET: api/Todoes
+        [Route("forcurrentuser")]
+        [Authorize(Roles = "User")]
+        public IQueryable<Todo> GetTodoesForCurrentUser()
+        {
+
+            var userId = User.Identity.GetUserId();
+
+            var user = AppUserManager.Users
+                .Include(u => u.Todos)
+                .FirstOrDefault(u => u.Id == userId);
+
+            var todoes = user.Todos;
+
+            return todoes.AsQueryable();
+            //return db.Todoes;
+        }
+
+        // GET: api/Todoes
         [Route("all")]
         [Authorize(Roles = "User")]
         public IQueryable<Todo> GetTodoes()

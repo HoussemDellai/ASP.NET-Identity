@@ -22,7 +22,7 @@
                 BackgroundColor="Navy"
                 Command="{Binding SignupCommand}" />
         
-        <Button Text="Already have an account ? Login"
+        <Button Text="Already have an account ? Signin"
                 BackgroundColor="Transparent"
                 TextColor="Teal"
                 Clicked="GoToSigninPage_Clicked"/>

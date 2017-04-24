@@ -2,6 +2,6 @@
 {
     public class Constants
     {
-        private static string BaseServiceUrl => "http://localhost:51502/";
+        public static string BaseServiceUrl => "http://localhost:51502/";
     }
 }

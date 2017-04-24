@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:XamarinApp.ViewModels;assembly=XamarinApp"
+             x:Class="XamarinApp.Views.TodoPage"
+             BackgroundColor="Silver">
+
+    <ContentPage.BindingContext>
+        <viewModels:TodoViewModel />
+    </ContentPage.BindingContext>
+
+    <!--<ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add"
+                     Command="{Binding NavigateToAddTodoPageCommand}"/>
+    </ContentPage.ToolbarItems>-->
+
+    <StackLayout Orientation="Vertical">
+
+        <Button Text="Add New"
+                Command="{Binding NavigateToAddTodoPageCommand}" />
+
+        <ListView ItemsSource="{Binding Todos}"
+                  HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Vertical">
+                            <Label Text="{Binding Title}" />
+                            <Label Text="{Binding Description}" />
+                            <Label Text="{Binding Status}" />
+                            <Label Text="{Binding Category}" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </StackLayout>
+
+</ContentPage>

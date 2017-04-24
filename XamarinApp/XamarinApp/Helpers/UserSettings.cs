@@ -12,7 +12,7 @@ namespace XamarinApp.Helpers
     /// All settings are laid out the same exact way with getters
     /// and setters. 
     /// </summary>
-    public static class Settings
+    public static class UserSettings
     {
         private static ISettings AppSettings => CrossSettings.Current;
 

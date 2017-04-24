@@ -1,4 +1,5 @@
 ﻿using Xamarin.Forms;
+using XamarinApp.Helpers;
 using XamarinApp.Views;
 
 namespace XamarinApp
@@ -9,7 +10,14 @@ namespace XamarinApp
         {
             InitializeComponent();
 
-            MainPage = new SignupPage();
+            if (string.IsNullOrEmpty(UserSettings.AccessToken))
+            {
+                MainPage = new NavigationPage(new SignupPage());
+            }
+            else
+            {
+                MainPage = new NavigationPage(new TodoPage());
+            }
             //MainPage = new MainPage();
         }
 
